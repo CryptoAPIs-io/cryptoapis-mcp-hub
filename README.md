@@ -23,9 +23,9 @@ npx @cryptoapis-io/mcp-address-latest --api-key YOUR_API_KEY
 npm install @cryptoapis-io/mcp
 ```
 
-## Hosted MCP Server
+## Remote MCP Server
 
-Crypto APIs provides an official hosted MCP server with HTTP Streamable transport at [https://ai.cryptoapis.io/mcp](https://ai.cryptoapis.io/mcp).
+Crypto APIs provides an official remote MCP server with HTTP Streamable transport at [https://ai.cryptoapis.io/mcp](https://ai.cryptoapis.io/mcp).
 
 This is a multi-tenant server — pass your API key via the `x-api-key` header with each request. No installation or self-hosting required.
 
