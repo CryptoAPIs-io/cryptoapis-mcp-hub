@@ -1,0 +1,12 @@
+{
+  "name": "@cryptoapis-io/mcp-hub",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Crypto APIs MCP Servers — GitHub landing page",
+  "license": "MIT",
+  "author": "Crypto APIs, Inc.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub.git"
+  }
+}
