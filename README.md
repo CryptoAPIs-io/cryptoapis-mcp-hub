@@ -265,6 +265,11 @@ npx @modelcontextprotocol/inspector npx @cryptoapis-io/mcp-address-latest --api-
 
 > **Warning:** Making requests without a valid API key — or with an incorrect one — may result in your IP being banned from the Crypto APIs ecosystem. Always ensure a valid API key is configured before starting any server.
 
+## Security
+
+Found a vulnerability? Please report it privately, not in a public issue. See [SECURITY.md](SECURITY.md).
+Published advisories are on the [Security tab](https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub/security/advisories).
+
 ## License
 
 MIT
