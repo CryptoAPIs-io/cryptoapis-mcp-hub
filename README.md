@@ -37,6 +37,7 @@ Use this when you need HTTP transport without running your own server (e.g. with
 |---------|-----|--------|-------------|
 | `@cryptoapis-io/mcp` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp) | — | Meta-package — installs all servers below |
 | `@cryptoapis-io/mcp-address-latest` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-address-latest) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-address-latest) | Current balance and state for EVM, UTXO, Solana, XRP, Kaspa addresses |
+| `@cryptoapis-io/mcp-aml` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-aml) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-aml) | AML address verification and transaction screening |
 | `@cryptoapis-io/mcp-address-history` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-address-history) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-address-history) | Full transaction and token history for synced addresses |
 | `@cryptoapis-io/mcp-block-data` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-block-data) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-block-data) | Block details by height or hash (EVM, UTXO, XRP) |
 | `@cryptoapis-io/mcp-blockchain-events` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-blockchain-events) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-blockchain-events) | Webhook subscriptions for on-chain events |
@@ -196,7 +197,9 @@ All servers support these arguments:
 |----------|-------------|---------|
 | `--api-key` | Crypto APIs API key | `CRYPTOAPIS_API_KEY` env var |
 | `--transport` | Transport type: `stdio` or `http` | `stdio` |
-| `--host` | HTTP host | `0.0.0.0` |
+| `--host` | HTTP host (use `0.0.0.0` to accept remote connections — requires an auth token with `--api-key`) | `127.0.0.1` |
+| `--auth-token` | Bearer token callers must send (`Authorization: Bearer <token>`); prefer the env var | `MCP_AUTH_TOKEN` env var |
+| `--allowed-hosts` | Comma-separated `Host` header allowlist for non-loopback binds | — |
 | `--port` | HTTP port | `3000` |
 | `--path` | HTTP path | `/mcp` |
 | `--stateless` | Enable stateless HTTP mode | `false` |
@@ -227,6 +230,28 @@ npx @cryptoapis-io/mcp-market-data --transport http
 | Stdio (always) | `--api-key` or `CRYPTOAPIS_API_KEY` env var (required) | N/A |
 | HTTP with `--api-key` | Startup key (fixed for all requests) | Ignored |
 | HTTP without `--api-key` | `x-api-key` request header (required) | Required |
+
+### Exposing the server beyond localhost
+
+HTTP mode listens on `127.0.0.1` by default, so only processes on the same machine can reach it.
+To accept connections from other machines or containers (Docker, Kubernetes, a shared VPC), bind
+explicitly and protect the port:
+
+```bash
+# Fixed key: callers must present a bearer token. Without MCP_AUTH_TOKEN the server refuses to
+# start on a non-loopback address, because anyone reaching the port would spend your credits.
+export MCP_AUTH_TOKEN=$(openssl rand -hex 32)
+npx @cryptoapis-io/mcp-market-data --transport http --host 0.0.0.0 --api-key YOUR_API_KEY \
+  --allowed-hosts mcp.internal.example
+# Clients send: Authorization: Bearer $MCP_AUTH_TOKEN
+
+# Per-request key: no startup key; requests without their own x-api-key are rejected (401)
+npx @cryptoapis-io/mcp-market-data --transport http --host 0.0.0.0
+```
+
+`--allowed-hosts` restricts the `Host` header (DNS rebinding protection) when not bound to
+loopback; loopback binds get this check automatically. Prefer `MCP_AUTH_TOKEN` over
+`--auth-token`: command-line arguments are visible in the process list.
 
 > **Note:** Stdio transport always requires an API key at startup. The per-request mode only applies to HTTP transport.
 
