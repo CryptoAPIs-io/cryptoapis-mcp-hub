@@ -267,7 +267,7 @@ npx @modelcontextprotocol/inspector npx @cryptoapis-io/mcp-address-latest --api-
 
 ## Security
 
-Found a vulnerability? Please report it privately, not in a public issue. See [SECURITY.md](SECURITY.md).
+Found a vulnerability? Please report it privately, not in a public issue. See [SECURITY.md](SECURITY.md) or email security@cryptoapis.io.
 Published advisories are on the [Security tab](https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub/security/advisories).
 
 ## License

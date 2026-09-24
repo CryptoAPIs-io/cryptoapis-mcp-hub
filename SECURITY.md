@@ -12,6 +12,8 @@ Report privately through GitHub: open the
 [Security tab of this repository](https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub/security) and
 choose **Report a vulnerability**. Only the maintainers can see the report.
 
+If you can't use GitHub, email **[security@cryptoapis.io](mailto:security@cryptoapis.io)**.
+
 Useful details:
 
 - the affected package(s) and version(s);
