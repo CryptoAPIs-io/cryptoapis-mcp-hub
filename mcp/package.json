@@ -1,0 +1,47 @@
+{
+  "name": "@cryptoapis-io/mcp",
+  "version": "0.4.9",
+  "description": "All Crypto APIs MCP servers in a single package — blockchain data, transactions, fees, signing, HD wallets, market data, and more",
+  "license": "MIT",
+  "author": "Crypto APIs, Inc.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub.git",
+    "directory": "mcp"
+  },
+  "keywords": [
+    "mcp",
+    "cryptoapis",
+    "blockchain",
+    "crypto",
+    "ai",
+    "claude",
+    "cursor"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "files": [
+    "README.md"
+  ],
+  "dependencies": {
+    "@cryptoapis-io/mcp-address-history": "0.4.0",
+    "@cryptoapis-io/mcp-address-latest": "0.4.0",
+    "@cryptoapis-io/mcp-aml": "0.2.0",
+    "@cryptoapis-io/mcp-block-data": "0.4.0",
+    "@cryptoapis-io/mcp-blockchain-events": "0.5.0",
+    "@cryptoapis-io/mcp-blockchain-fees": "0.5.1",
+    "@cryptoapis-io/mcp-broadcast": "0.5.0",
+    "@cryptoapis-io/mcp-contracts": "0.4.0",
+    "@cryptoapis-io/mcp-hd-wallet": "0.4.0",
+    "@cryptoapis-io/mcp-market-data": "0.4.0",
+    "@cryptoapis-io/mcp-prepare-transactions": "0.5.0",
+    "@cryptoapis-io/mcp-signer": "0.5.0",
+    "@cryptoapis-io/mcp-simulate": "0.4.0",
+    "@cryptoapis-io/mcp-transactions-data": "0.4.0",
+    "@cryptoapis-io/mcp-utils": "0.4.0",
+    "@cryptoapis-io/mcp-x402-accept": "0.1.1",
+    "@cryptoapis-io/mcp-x402-pay": "0.5.3"
+  }
+}
