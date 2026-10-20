@@ -3,6 +3,8 @@
 [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) servers for [Crypto APIs](https://cryptoapis.io/) — blockchain data, transactions, fees, signing, HD wallets, market data, and more. Works with Claude Desktop, Cursor, Windsurf, n8n, and any MCP-compatible AI client.
 
 > **API Version:** Compatible with Crypto APIs version **2024-12-12**
+>
+> **API docs:** [developers.cryptoapis.io](https://developers.cryptoapis.io)
 
 ## Quick Start
 
@@ -17,11 +19,15 @@
 npx @cryptoapis-io/mcp-address-latest --api-key YOUR_API_KEY
 ```
 
-### Install all servers at once
+### Install the combined server (14 products in one process)
 
 ```bash
-npm install @cryptoapis-io/mcp
+npx @cryptoapis-io/mcp --api-key YOUR_API_KEY
 ```
+
+Every tool is named `<product>__<tool>` (e.g. `block_data__evm_block_data`). This does not include
+`mcp-signer`, `mcp-x402-pay`, or `mcp-x402-accept` — install those separately if you need local signing
+or x402 payments.
 
 ## Remote MCP Server
 
@@ -35,7 +41,7 @@ Use this when you need HTTP transport without running your own server (e.g. with
 
 | Package | npm | GitHub | Description |
 |---------|-----|--------|-------------|
-| `@cryptoapis-io/mcp` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp) | — | Meta-package — installs all servers below |
+| `@cryptoapis-io/mcp` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub/tree/main/mcp) | Combined server — bundles the 14 non-signing products below into one process |
 | `@cryptoapis-io/mcp-address-latest` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-address-latest) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-address-latest) | Current balance and state for EVM, UTXO, Solana, XRP, Kaspa addresses |
 | `@cryptoapis-io/mcp-aml` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-aml) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-aml) | AML address verification and transaction screening |
 | `@cryptoapis-io/mcp-address-history` | [npm](https://www.npmjs.com/package/@cryptoapis-io/mcp-address-history) | [GitHub](https://github.com/CryptoAPIs-io/cryptoapis-mcp-address-history) | Full transaction and token history for synced addresses |

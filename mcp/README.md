@@ -1,79 +1,60 @@
 # @cryptoapis-io/mcp
 
-Install all [Crypto APIs](https://cryptoapis.io) MCP servers with a single command.
+The combined [Crypto APIs](https://cryptoapis.io) MCP server — all 14 data products in a single process, one command.
+
+## What's Included
+
+Every tool is named `<product>__<tool>` (e.g. `block_data__evm_block_data`):
+
+| Product | Tools |
+|---------|-------|
+| `address_history` | Manage synced addresses, full tx/token history (EVM, UTXO) |
+| `address_latest` | Current balance/state (EVM, UTXO, Solana, XRP, Kaspa) |
+| `aml` | AML address verification and transaction screening |
+| `block_data` | Block-level data (EVM, UTXO, XRP) |
+| `blockchain_events` | Webhook subscriptions — create and manage |
+| `blockchain_fees` | Fee recommendations and gas estimation (EVM, UTXO, XRP, Tezos, Solana) |
+| `broadcast` | Broadcast signed raw transactions |
+| `contracts` | Smart contract ABIs and on-chain data (EVM, Solana) |
+| `hd_wallet` | xpub/HD wallet balance and sync (EVM, UTXO, XRP) |
+| `market_data` | Asset prices, exchange rates, metadata |
+| `prepare_transactions` | Build unsigned transactions (EVM, Tezos, Solana, Kaspa, XRP, UTXO, Tron) |
+| `simulate` | Dry-run Ethereum transaction simulation |
+| `transactions_data` | Transaction lookup and listing |
+| `utils` | Address derivation and encoding utilities |
+
+Each product also registers its prompts and a `cryptoapis://<product>/...` resource.
+
+**Not included:** `@cryptoapis-io/mcp-signer` (local transaction signing), `@cryptoapis-io/mcp-x402-pay`
+(buyer-side x402), and `@cryptoapis-io/mcp-x402-accept` (merchant-side x402 paywall) are separate
+installs — they move money or hold keys, which this combined server deliberately does not.
 
 ## Prerequisites
 
 - Node.js 18+
 - [Crypto APIs](https://cryptoapis.io/) account and API key ([sign up](https://app.cryptoapis.io/signup) | [get API key](https://app.cryptoapis.io/api-keys))
 
-## Installation
-
-```bash
-npm install @cryptoapis-io/mcp
-```
-
-Or install only the servers you need (recommended if you only use a few):
-
-```bash
-npm install @cryptoapis-io/mcp-address-latest @cryptoapis-io/mcp-hd-wallet
-```
-
-## What's Included
-
-| Package | Description |
-|---------|-------------|
-| `@cryptoapis-io/mcp-address-latest` | Current balance and state for EVM, UTXO, Solana, XRP, and Kaspa addresses |
-| `@cryptoapis-io/mcp-address-history` | Full transaction and token history for synced addresses |
-| `@cryptoapis-io/mcp-block-data` | Block-level data from EVM, UTXO, and XRP blockchains |
-| `@cryptoapis-io/mcp-blockchain-events` | Subscribe to and manage on-chain event webhooks |
-| `@cryptoapis-io/mcp-blockchain-fees` | Fee recommendations and gas estimation |
-| `@cryptoapis-io/mcp-broadcast` | Broadcast signed raw transactions |
-| `@cryptoapis-io/mcp-contracts` | Read smart contract ABIs and on-chain data |
-| `@cryptoapis-io/mcp-hd-wallet` | HD wallet management, balance retrieval, and sync |
-| `@cryptoapis-io/mcp-market-data` | Asset prices, exchange rates, and market metadata |
-| `@cryptoapis-io/mcp-prepare-transactions` | Build unsigned transactions |
-| `@cryptoapis-io/mcp-signer` | Local transaction signing (EVM, UTXO, Tron, XRP) |
-| `@cryptoapis-io/mcp-simulate` | Dry-run EVM transaction simulation |
-| `@cryptoapis-io/mcp-transactions-data` | Transaction lookup and listing |
-| `@cryptoapis-io/mcp-utils` | Address derivation and encoding utilities |
-| `@cryptoapis-io/mcp-x402-pay` | Pay x402-gated HTTP endpoints and MCP tools automatically (non-custodial) |
-| `@cryptoapis-io/mcp-x402-accept` | Charge agents per tool call — self-hosted x402 paywall for an existing MCP server |
-
 ## Usage
 
-After installing, each server is available via `npx`:
-
 ```bash
-npx @cryptoapis-io/mcp-hd-wallet --api-key YOUR_API_KEY
-npx @cryptoapis-io/mcp-market-data --api-key YOUR_API_KEY
-npx @cryptoapis-io/mcp-address-latest --api-key YOUR_API_KEY
+npx @cryptoapis-io/mcp --api-key YOUR_API_KEY
 ```
 
-The two **x402** servers are configured differently, because they move money rather than read data:
+Or via environment variable:
 
 ```bash
-# Buyer — pay for 402-gated endpoints and MCP tools. Needs a key with the X402_BUYER feature.
-npx @cryptoapis-io/mcp-x402-pay --api-key YOUR_API_KEY
-
-# Merchant — paywall an MCP server you already run. Config file, not flags:
-npx @cryptoapis-io/mcp-x402-accept --config ./x402-accept.config.json
+export CRYPTOAPIS_API_KEY=YOUR_API_KEY
+npx @cryptoapis-io/mcp
 ```
-
-`mcp-x402-accept` is **self-hosted by design** — you run it, so your tool arguments and results never
-leave your machine. It needs a key with the **X402_FACILITATOR** feature; see its README for the config
-format.
 
 ### Claude Desktop
-
-Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
 
 ```json
 {
   "mcpServers": {
-    "cryptoapis-address-latest": {
+    "cryptoapis": {
       "command": "npx",
-      "args": ["-y", "@cryptoapis-io/mcp-address-latest"],
+      "args": ["-y", "@cryptoapis-io/mcp"],
       "env": {
         "CRYPTOAPIS_API_KEY": "your_api_key_here"
       }
@@ -89,9 +70,9 @@ Add to `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "cryptoapis-address-latest": {
+    "cryptoapis": {
       "command": "npx",
-      "args": ["-y", "@cryptoapis-io/mcp-address-latest"],
+      "args": ["-y", "@cryptoapis-io/mcp"],
       "env": {
         "CRYPTOAPIS_API_KEY": "your_api_key_here"
       }
@@ -100,15 +81,65 @@ Add to `.cursor/mcp.json`:
 }
 ```
 
-See each package's README for full documentation of available tools and actions. For n8n, MCP Inspector, and Claude Code setup, see the [main README](../../README.md).
+### VS Code
 
-## Important: API Key Required
+Add to `.vscode/mcp.json`:
 
-> **Warning:** Making requests without a valid API key — or with an incorrect one — may result in your IP being banned from the Crypto APIs ecosystem. Always ensure a valid API key is configured before starting any server.
+```json
+{
+  "servers": {
+    "cryptoapis": {
+      "command": "npx",
+      "args": ["-y", "@cryptoapis-io/mcp"],
+      "env": {
+        "CRYPTOAPIS_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
 
 ## Remote MCP Server
 
-Crypto APIs provides an official remote MCP server with all tools available via HTTP Streamable transport at [https://ai.cryptoapis.io/mcp](https://ai.cryptoapis.io/mcp). Pass your API key via the `x-api-key` header — no installation required.
+Crypto APIs also hosts this same combined server over HTTP Streamable transport at
+[https://ai.cryptoapis.io/mcp](https://ai.cryptoapis.io/mcp) — no installation required. Pass your API
+key via the `x-api-key` header with each request:
+
+```json
+{
+  "mcpServers": {
+    "cryptoapis": {
+      "url": "https://ai.cryptoapis.io/mcp",
+      "headers": {
+        "x-api-key": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+## HTTP Transport (self-hosted)
+
+```bash
+npx @cryptoapis-io/mcp --transport http --api-key YOUR_API_KEY
+```
+
+See the [main README](https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub) for the full list of CLI
+arguments, HTTP API key modes, and exposing the server beyond localhost.
+
+## Only need a few products?
+
+Install just the packages you use instead of the combined server:
+
+```bash
+npx @cryptoapis-io/mcp-block-data --api-key YOUR_API_KEY
+```
+
+See [docs](https://developers.cryptoapis.io) for the full API reference.
+
+## Important: API Key Required
+
+> **Warning:** Making requests without a valid API key — or with an incorrect one — may result in your IP being banned from the Crypto APIs ecosystem. Always ensure a valid API key is configured before starting the server.
 
 ## License
 

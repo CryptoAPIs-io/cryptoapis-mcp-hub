@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.CryptoAPIs-io/mcp",
+  "description": "Combined Crypto APIs MCP server — all 14 products in one process",
+  "repository": {
+    "url": "https://github.com/CryptoAPIs-io/cryptoapis-mcp-hub",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "version": "0.5.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@cryptoapis-io/mcp",
+      "version": "0.5.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Crypto APIs API key",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true,
+          "name": "CRYPTOAPIS_API_KEY"
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://ai.cryptoapis.io/mcp",
+      "headers": [
+        {
+          "name": "x-api-key",
+          "description": "Crypto APIs API key",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
