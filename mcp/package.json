@@ -1,6 +1,6 @@
 {
   "name": "@cryptoapis-io/mcp",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "All Crypto APIs MCP servers in a single package — blockchain data, transactions, fees, signing, HD wallets, market data, and more",
   "license": "MIT",
   "author": "Crypto APIs, Inc.",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@cryptoapis-io/mcp-address-history": "0.4.0",
     "@cryptoapis-io/mcp-address-latest": "0.4.0",
-    "@cryptoapis-io/mcp-aml": "0.2.0",
+    "@cryptoapis-io/mcp-aml": "0.3.0",
     "@cryptoapis-io/mcp-block-data": "0.4.0",
     "@cryptoapis-io/mcp-blockchain-events": "0.5.0",
     "@cryptoapis-io/mcp-blockchain-fees": "0.5.1",
