@@ -1,5 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { CryptoApisHttpClient, McpLogger, ToolCredits } from "@cryptoapis-io/mcp-shared";
+import type { CryptoApisHttpClient, McpLogger, ToolAnnotations, ToolCredits } from "@cryptoapis-io/mcp-shared";
 import type { ZodTypeAny } from "zod";
 
 import { tools as addressHistoryTools } from "@cryptoapis-io/mcp-address-history/dist/tools/index.js";
@@ -61,6 +61,8 @@ import { registerResources as registerUtilsResources } from "@cryptoapis-io/mcp-
 /** Structural shape shared by every product's exported `McpToolDef<TSchema>`. */
 export type CombinedTool = {
     name: string;
+    title: string;
+    annotations: ToolAnnotations;
     description: string;
     credits?: ToolCredits;
     inputSchema: ZodTypeAny;

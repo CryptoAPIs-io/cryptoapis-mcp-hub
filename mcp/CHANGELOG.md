@@ -1,5 +1,30 @@
 # @cryptoapis-io/mcp
 
+## 0.6.0
+
+### Minor Changes
+
+- 59200e2: Every tool now has a title and MCP tool annotations (readOnlyHint, destructiveHint, idempotentHint, openWorldHint), so clients can tell read tools from writes and ask before a delete or a broadcast. mcp-shared exports the presets: READ_ONLY_TOOL, WRITE_TOOL, DESTRUCTIVE_TOOL, LOCAL_READ_ONLY_TOOL.
+
+### Patch Changes
+
+- Updated dependencies [59200e2]
+  - @cryptoapis-io/mcp-shared@0.5.0
+  - @cryptoapis-io/mcp-address-history@0.5.0
+  - @cryptoapis-io/mcp-address-latest@0.5.0
+  - @cryptoapis-io/mcp-aml@0.4.0
+  - @cryptoapis-io/mcp-block-data@0.5.0
+  - @cryptoapis-io/mcp-blockchain-events@0.6.0
+  - @cryptoapis-io/mcp-blockchain-fees@0.6.0
+  - @cryptoapis-io/mcp-broadcast@0.6.0
+  - @cryptoapis-io/mcp-contracts@0.5.0
+  - @cryptoapis-io/mcp-hd-wallet@0.5.0
+  - @cryptoapis-io/mcp-market-data@0.5.0
+  - @cryptoapis-io/mcp-prepare-transactions@0.6.0
+  - @cryptoapis-io/mcp-simulate@0.5.0
+  - @cryptoapis-io/mcp-transactions-data@0.5.0
+  - @cryptoapis-io/mcp-utils@0.5.0
+
 ## 0.5.0
 
 ### Minor Changes

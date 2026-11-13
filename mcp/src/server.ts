@@ -31,7 +31,7 @@ function buildServer(client: CryptoApisHttpClient) {
             const name = `${p.prefix}__${t.name}`;
             const description =
                 t.credits != null ? `${t.description}\n\n${formatCreditsForDescription(t.credits)}` : t.description;
-            server.registerTool(name, { description, inputSchema: t.inputSchema }, (input: Record<string, unknown>) => {
+            server.registerTool(name, { title: t.title, description, inputSchema: t.inputSchema, annotations: t.annotations }, (input: Record<string, unknown>) => {
                 logger.logDebug({ tool: name, event: "tool_call", input });
                 return t.handler(client, logger)(input as never).catch((err: unknown) => {
                     logger.logError(err instanceof Error ? err.message : String(err), {

@@ -99,3 +99,19 @@ export const EXPECTED_PRODUCT_IDS: readonly string[] = [
     "transactions-data",
     "utils",
 ].sort();
+
+/** Tools that can delete account state or make an irreversible change: destructiveHint true. */
+export const EXPECTED_DESTRUCTIVE_TOOLS: readonly string[] = [
+    "address_history__manage_address",
+    "blockchain_events__blockchain_events_manage",
+    "broadcast__broadcast_signed_transaction",
+    "hd_wallet__manage_hd_wallet",
+].sort();
+
+/** Tools that create or change account state but remove nothing: readOnlyHint false, destructiveHint false. */
+export const EXPECTED_WRITE_TOOLS: readonly string[] = [
+    "blockchain_events__blockchain_events_create",
+    "hd_wallet__hd_wallet_data_evm",
+    "hd_wallet__hd_wallet_data_utxo",
+    "hd_wallet__hd_wallet_data_xrp",
+].sort();

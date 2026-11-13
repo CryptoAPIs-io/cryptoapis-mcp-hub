@@ -2,7 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import { connectStdio, SPAWN_TEST_TIMEOUT_MS } from "./helpers.js";
-import { EXPECTED_PRODUCT_IDS, EXPECTED_PROMPT_NAMES, EXPECTED_TOOL_NAMES } from "./fixtures.js";
+import {
+    EXPECTED_DESTRUCTIVE_TOOLS,
+    EXPECTED_PRODUCT_IDS,
+    EXPECTED_PROMPT_NAMES,
+    EXPECTED_TOOL_NAMES,
+    EXPECTED_WRITE_TOOLS,
+} from "./fixtures.js";
 
 test("stdio tools/list matches the 60-name fixture exactly", { timeout: SPAWN_TEST_TIMEOUT_MS }, async (t) => {
     const client = await connectStdio(["--api-key", "test-key"], undefined, process.execPath, t.signal);
@@ -14,6 +20,30 @@ test("stdio tools/list matches the 60-name fixture exactly", { timeout: SPAWN_TE
             !names.some((n) => n.startsWith("signer__") || n.startsWith("x402_pay__") || n.startsWith("x402_accept__")),
             "no tool should come from mcp-signer, mcp-x402-pay or mcp-x402-accept",
         );
+    } finally {
+        await client.close();
+    }
+});
+
+test("stdio tools/list gives every tool a title and all four annotation hints", { timeout: SPAWN_TEST_TIMEOUT_MS }, async (t) => {
+    const client = await connectStdio(["--api-key", "test-key"], undefined, process.execPath, t.signal);
+    try {
+        const { tools } = await client.listTools();
+        assert.equal(tools.length, EXPECTED_TOOL_NAMES.length);
+        for (const tool of tools) {
+            assert.ok(typeof tool.title === "string" && tool.title.length > 0, `${tool.name} has no title`);
+            const a = tool.annotations;
+            assert.ok(a, `${tool.name} has no annotations`);
+            for (const hint of ["readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint"] as const) {
+                assert.equal(typeof a[hint], "boolean", `${tool.name} is missing ${hint}`);
+            }
+            const destructive = EXPECTED_DESTRUCTIVE_TOOLS.includes(tool.name);
+            const write = EXPECTED_WRITE_TOOLS.includes(tool.name);
+            assert.equal(a.destructiveHint, destructive, `${tool.name} destructiveHint`);
+            assert.equal(a.readOnlyHint, !destructive && !write, `${tool.name} readOnlyHint`);
+            // Only system_info answers from bundled data; every other tool calls the CryptoAPIs API.
+            assert.equal(a.openWorldHint, !tool.name.endsWith("__system_info"), `${tool.name} openWorldHint`);
+        }
     } finally {
         await client.close();
     }
